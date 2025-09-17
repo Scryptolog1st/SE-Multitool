@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Enhance hamburger toggle: lock scroll & manage overlay visibility
     const hamburger = document.querySelector('.hamburger');
     const nav = document.querySelector('.nav');
+    const imageBaseUrl = 'https://raw.githubusercontent.com/Scryptolog1st/SE-Multitool/main/img/';
 
     // Create overlay once if it doesn't exist
     let overlay = document.querySelector('.nav-overlay');
@@ -12,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.appendChild(overlay);
     }
 
-    function closeDrawer() {
+    function closeDrawer() {<td><img src="${imageBaseUrl}${imageName}" alt="${thruster.name}"></td>thruster.name
         hamburger?.setAttribute('aria-expanded', 'false');
         nav?.classList.remove('open');
         document.body.classList.remove('no-scroll');
@@ -259,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const imageName = `${gridSize}_${type}.png`;
                 const row = `
                     <tr>
-                        <td><img src="img/${imageName}" alt="${thruster.name}"></td>
+                        <td><img src="${imageBaseUrl}${imageName}" alt="${thruster.name}"></td>
                         <td>${thruster.name} (${gridSize})</td>
                         <td><strong>${count}</strong></td>
                     </tr>
@@ -502,4 +503,5 @@ document.addEventListener('DOMContentLoaded', () => {
     calculateParachutes();
     calculateJumpDrive();
 });
+
 
