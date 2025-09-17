@@ -4,7 +4,7 @@
 
 A collection of essential calculators and tools for the game Space Engineers, designed to assist with ship design and engineering calculations.
 
-![SE Multitool Screenshot](https://i.imgur.com/83ZJ1y7.jpeg)
+![SE Multitool Screenshot](https://i.imgur.com/W2H43lX.png)
 ## About The Project
 
 This project was created to provide Space Engineers players with a simple, all-in-one web tool for the most common calculations needed when designing ships and stations. Whether you're trying to escape a planet's gravity, planning a long-distance jump, or figuring out a safe landing, this multitool has you covered.
