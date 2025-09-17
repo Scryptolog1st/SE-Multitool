@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SE Multitool</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="app">
+        <!-- Navigation Tabs -->
+        <nav class="nav">
+            <div class="brand">
+                <img src="img/logo.png" alt="SE Calculator Logo" class="brand-logo"> SE Multitool
+            </div>
+
+            <!-- Hamburger button -->
+            <button class="hamburger" aria-label="Toggle menu" aria-controls="primary-tabs" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+
+            <!-- Drawer (now slides in from the right) -->
+            <div class="mobile-drawer" id="primary-tabs">
+                <div class="tabs">
+                    <button class="tab active" data-view="thruster_calculator">Thruster Calculator</button>
+                    <button class="tab" data-view="thruster_efficiencies">Thruster Efficiencies</button>
+                    <button class="tab" data-view="parachute">Parachute Calc</button>
+                    <button class="tab" data-view="jumpdrive">Jump Drive Calc</button>
+                    <button class="tab" data-view="blueprint">Blueprint Parser</button>
+                    <button class="tab" data-view="damage">Damage Range</button>
+                </div>
+            </div>
+        </nav>
+
+
+
+
+        <!-- Thruster Calculator View -->
+        <div id="thruster_calculator" class="view show">
+            <h2>Thruster Requirements</h2>
+            <div class="card">
+                <div class="form-grid two-col">
+                    <div class="col">
+                        <div class="field">
+                            <span>Grid Size (for Cargo)</span>
+                            <div class="radio-group" id="reqGridSize">
+                                <label><input type="radio" name="reqGridSize" value="large" checked> Large</label>
+                                <label><input type="radio" name="reqGridSize" value="small"> Small</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <span>Ship Mass (Kg)</span>
+                            <input id="reqMass" type="number" value="1300000">
+                        </div>
+                        <div class="field">
+                            <span>Gravity Environment</span>
+                            <select id="reqGravity"></select>
+                        </div>
+                        <div class="field">
+                            <span>Fill Cargo With</span>
+                            <select id="reqCargoItem">
+                                <option value="none">None (Empty)</option>
+                                <!-- Options populated by script.js -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="field">
+                            <span>Cargo Space Multiplier</span>
+                            <select id="reqCargoMultiplier">
+                                <option value="1">x1</option>
+                                <option value="3" selected>x3</option>
+                                <option value="5">x5</option>
+                                <option value="10">x10</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <span>Small Cargo Container Count</span>
+                            <input id="reqSmallCargo" type="number" value="0" min="0">
+                        </div>
+                        <div class="field">
+                            <span>Large Cargo Container Count</span>
+                            <input id="reqLargeCargo" type="number" value="0" min="0">
+                        </div>
+                    </div>
+                </div>
+                <div id="thrusterRequirementResult" class="result-box" style="display: none;"></div>
+                <div id="thrusterRequirementTable" class="results-wrapper" style="margin-top: 1.5rem; display: none;">
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px;"></th>
+                                <th>Thruster Type</th>
+                                <th>Required Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Rows will be dynamically inserted here by script.js -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Thruster Efficiencies View -->
+        <div id="thruster_efficiencies" class="view">
+            <h2>Thruster Efficiencies</h2>
+            <div class="card">
+                <div class="form-grid" id="thruster-inputs">
+                    <div class="field">
+                        <span>Planet</span>
+                        <select id="thrusterPlanet">
+                            <option value="Earthlike" selected>Earthlike</option>
+                            <option value="Mars">Mars</option>
+                            <option value="Alien">Alien</option>
+                            <option value="Pertam">Pertam</option>
+                            <option value="Triton">Triton</option>
+                            <option value="Moon">Moon</option>
+                            <option value="Europa">Europa</option>
+                            <option value="Titan">Titan</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <span>Current Ship Mass (Kg)</span>
+                        <input id="thrusterMass" type="number" value="1300000">
+                    </div>
+                    <div class="field">
+                        <span>Grid Size</span>
+                        <div class="radio-group" id="thrusterGridSize">
+                            <label><input type="radio" name="thrusterGridSize" value="large" checked> Large</label>
+                            <label><input type="radio" name="thrusterGridSize" value="small"> Small</label>
+                        </div>
+                    </div>
+                </div>
+                <h5>Thruster Counts</h5>
+                <div class="form-grid" id="thruster-counts">
+                    <div class="field">
+                        <span>Ion</span>
+                        <input id="ionCount" type="number" value="0" min="0">
+                    </div>
+                    <div class="field">
+                        <span>Hydrogen</span>
+                        <input id="hydroCount" type="number" value="0" min="0">
+                    </div>
+                    <div class="field">
+                        <span>Atmospheric</span>
+                        <input id="atmoCount" type="number" value="0" min="0">
+                    </div>
+                    <div class="field">
+                        <span>Flat Atmospheric</span>
+                        <input id="flatAtmoCount" type="number" value="0" min="0">
+                    </div>
+                </div>
+                <div class="field">
+                    <span>Ascent Angle</span>
+                    <div class="radio-group" id="ascentAngle">
+                        <label><input type="radio" name="ascentAngle" value="90" checked> 90° (Vertical)</label>
+                        <label><input type="radio" name="ascentAngle" value="45"> 45°</label>
+                    </div>
+                    <div class="hint">Select 45° if you are using rear thrusters to assist with lift.</div>
+                </div>
+                <div id="maxShipWeightResult" class="result-box" style="display: none; margin-top: 1.5rem;"></div>
+                <div class="graph-container">
+                    <canvas id="thrusterChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Parachute Calculator View -->
+        <div id="parachute" class="view">
+            <h2>Parachute Calculator</h2>
+            <div class="card">
+                <div class="form-grid two-col">
+                    <div class="col">
+                        <div class="field">
+                            <span>Grid Size</span>
+                            <div class="radio-group" id="parachuteGridSize">
+                                <label><input type="radio" name="parachuteGridSize" value="large" checked> Large</label>
+                                <label><input type="radio" name="parachuteGridSize" value="small"> Small</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <span>Ship Mass (Kg)</span>
+                            <input id="parachuteMass" type="number" value="1300000">
+                        </div>
+                        <div class="field">
+                            <span>Gravity (m/s²)</span>
+                            <input id="parachuteGravity" type="number" step="any" value="9.81">
+                        </div>
+                        <div class="field">
+                            <span>Desired Terminal Velocity (m/s)</span>
+                            <input id="parachuteVelocity" type="number" step="any" value="10">
+                        </div>
+                        <div class="field">
+                            <span>Atmosphere (atm)</span>
+                            <input id="parachuteAtmosphere" type="number" step="any" value="1">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="hint">
+                            <strong>Gravity Hint:</strong><br>
+                            Earth is <b>9.81</b> m/s²<br>
+                            Mars is <b>8.83</b> m/s²<br>
+                            Alien is <b>10.79</b> m/s²<br>
+                            Pertam is <b>11.77</b> m/s²<br>
+                            Triton is <b>9.81</b> m/s²
+                        </div>
+                        <div class="hint" style="margin-top:1.5rem;">
+                            <strong>Atmosphere Hint:</strong><br>
+                            Earth is <b>1</b> atm<br>
+                            Mars is <b>0.8</b> atm<br>
+                            Alien is <b>1</b> atm<br>
+                            Triton is <b>0.8</b> atm
+                        </div>
+                    </div>
+                </div>
+                <div id="parachuteResult" class="result-box" style="display: none;"></div>
+            </div>
+        </div>
+
+        <!-- Jump Drive Calculator View -->
+        <div id="jumpdrive" class="view">
+            <h2>Jump Drive Calculator</h2>
+            <div class="card">
+                <div class="form-grid">
+                    <div class="field">
+                        <span>Ship Mass (Kg)</span>
+                        <input id="jumpdriveMass" type="number" value="1300000">
+                    </div>
+                    <div class="field">
+                        <span>Jump Drive Count</span>
+                        <input id="jumpdriveCount" type="number" value="1" min="0">
+                    </div>
+                </div>
+                <div id="jumpdriveResult" class="result-box" style="display: none;"></div>
+                <div class="field" style="margin-top: 2rem;">
+                    <h5>Jump Drive Efficiency Chart</h5>
+                    <img src="img/Space_Engineers_Jump_Drive_Chart.png" alt="Jump Drive Chart" class="jump-chart-img">
+                </div>
+            </div>
+        </div>
+
+        <!-- Blueprint Parser View -->
+        <div id="blueprint" class="view">
+            <h2>Blueprint Parser & Analyzer</h2>
+            <div class="card">
+                <div class="file-drop-zone">
+                    <input type="file" id="blueprintFile" accept=".sbc">
+                    <p><strong>Drag & drop a blueprint file here</strong><br>or click to select a file (.sbc)</p>
+                </div>
+                <div id="blueprintResult" class="results-wrapper" style="display: none;">
+                    <h5 id="blueprintName" style="text-align: center; margin-bottom: 1.5rem;"></h5>
+                    <h5>Blueprint Components</h5>
+                    <table id="blueprintTable" class="results-table">
+                        <thead>
+                            <tr>
+                                <th>Component</th>
+                                <th>Count</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="hint">Note: This is a simplified client-side parser. It may not work for all blueprint
+                    files, especially very large or complex ones.</div>
+            </div>
+        </div>
+
+        <!-- Thruster Damage View -->
+        <div id="damage" class="view">
+            <h2>Thruster Damage Range</h2>
+            <div class="card">
+                <div class="results-wrapper">
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th>Thruster</th>
+                                <th>Size</th>
+                                <th>Blocks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Large Ion Thruster</td>
+                                <td>Small</td>
+                                <td><strong>4</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Ion Thruster</td>
+                                <td>Small</td>
+                                <td><strong>2</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Large Hydrogen Thruster</td>
+                                <td>Small</td>
+                                <td><strong>7</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Hydrogen Thruster</td>
+                                <td>Small</td>
+                                <td><strong>2</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Large Atmospheric Thruster</td>
+                                <td>Small</td>
+                                <td><strong>5</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Atmospheric Thruster</td>
+                                <td>Small</td>
+                                <td><strong>2</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Large Flat Atmospheric Thruster</td>
+                                <td>Small</td>
+                                <td><strong>3</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Flat Atmospheric Thruster</td>
+                                <td>Small</td>
+                                <td><strong>2</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Large Ion Thruster</td>
+                                <td>Large</td>
+                                <td><strong>5</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Ion Thruster</td>
+                                <td>Large</td>
+                                <td><strong>3</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Large Hydrogen Thruster</td>
+                                <td>Large</td>
+                                <td><strong>7</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Hydrogen Thruster</td>
+                                <td>Large</td>
+                                <td><strong>2</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Large Atmospheric Thruster</td>
+                                <td>Large</td>
+                                <td><strong>5</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Atmospheric Thruster</td>
+                                <td>Large</td>
+                                <td><strong>2</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Large Flat Atmospheric Thruster</td>
+                                <td>Large</td>
+                                <td><strong>3</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Flat Atmospheric Thruster</td>
+                                <td>Large</td>
+                                <td><strong>2</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div> <div id="imageModal" class="modal-overlay">
+        <span class="modal-close">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <footer class="site-footer">
+        <p>
+            Space Engineers™ and all related images, icons, and logos are the property of
+            <strong>Keen Software House</strong>. This site is not affiliated with or endorsed by
+            <strong>Keen Software House</strong>.
+        </p>
+        <p class="site-credit">
+            © 2025 SE Multitool. All other trademarks are the property of their respective owners.
+        </p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

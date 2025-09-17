@@ -1,0 +1,771 @@
+:root {
+    /* Colors */
+    --bg: #0f141a;
+    --card: #171e28;
+    --text: #e8eefc;
+    --muted: #8a99b5;
+    --accent: #7aa2ff;
+    --accent-glow: rgba(122, 162, 255, 0.2);
+    --border: #2a3447;
+
+    /* Typography (fluid) */
+    --font-sans: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, 'Helvetica Neue', Arial, 'Noto Sans';
+    --fs-sm: clamp(0.85rem, 0.78rem + 0.4vw, 0.95rem);
+    --fs-base: clamp(0.95rem, 0.9rem + 0.5vw, 1.05rem);
+    --fs-lg: clamp(1.1rem, 1rem + 0.8vw, 1.35rem);
+    --fs-xl: clamp(1.5rem, 1.2rem + 2vw, 2rem);
+    --fs-xxl: clamp(2rem, 1.6rem + 3vw, 2.75rem);
+
+    /* Spacing (fluid) */
+    --space-1: clamp(6px, 0.3vw + 4px, 10px);
+    --space-2: clamp(10px, 0.6vw + 8px, 14px);
+    --space-3: clamp(14px, 1vw + 10px, 18px);
+    --space-4: clamp(18px, 1.4vw + 12px, 24px);
+    --space-5: clamp(24px, 2vw + 16px, 32px);
+    --radius: 12px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: var(--fs-base);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    background-image:
+        radial-gradient(circle at 10% 20%, var(--accent-glow), transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(48, 228, 168, 0.08), transparent 40%);
+    min-height: 100vh;
+    background-attachment: fixed;
+    position: relative;
+    z-index: 1;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0 0 var(--space-2) 0;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+h1 {
+    font-size: var(--fs-xxl);
+}
+
+h2 {
+    font-size: var(--fs-xl);
+}
+
+h5 {
+    font-size: var(--fs-lg);
+    color: var(--accent);
+    margin-bottom: var(--space-3);
+}
+
+p {
+    margin: 0 0 var(--space-2) 0;
+}
+
+strong {
+    color: var(--accent);
+}
+
+.app {
+    width: min(1200px, 100%);
+    margin: 0 auto;
+    padding: var(--space-5) var(--space-4);
+    position: relative;
+    z-index: 1;
+    /* ensures app is above background */
+}
+
+/* --- Nav & Tabs --- */
+.nav {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: var(--space-5);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--fs-lg);
+    font-weight: 800;
+    min-height: 44px;
+}
+
+.brand-logo {
+    height: clamp(24px, 2.6vw, 32px);
+    width: auto;
+}
+
+.tabs {
+    display: flex;
+    gap: var(--space-1);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.tab {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    cursor: pointer;
+    flex: 0 0 auto;
+    min-height: 36px;
+    transition: border-color .15s ease, box-shadow .15s ease, background-color .15s ease;
+}
+
+.tab:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow) inset;
+}
+
+.tab.active {
+    border-color: var(--accent);
+    background: rgba(122, 162, 255, 0.08);
+    color: var(--text);
+    box-shadow: 0 0 0 3px var(--accent-glow) inset;
+}
+
+.view {
+    display: none;
+}
+
+.view.show {
+    display: block;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* --- Cards / Inputs --- */
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-4);
+    margin-bottom: var(--space-4);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+}
+
+.form-grid.two-col {
+    grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+}
+
+.field {
+    display: grid;
+    gap: 6px;
+}
+
+.field span {
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    color: var(--muted);
+}
+
+input,
+select,
+button {
+    font: inherit;
+}
+
+input[type="number"],
+select {
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    width: 100%;
+    min-height: 44px;
+}
+
+input[type="number"]:focus,
+select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+/* Radios / Checkboxes */
+.radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    align-items: center;
+    background: var(--bg);
+    padding: 8px;
+    border-radius: 10px;
+}
+
+.radio-group label {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 36px;
+}
+
+.custom-checkbox {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.custom-checkbox input {
+    position: absolute;
+    opacity: 0;
+}
+
+.custom-checkbox .checkmark {
+    width: 20px;
+    height: 20px;
+    background-color: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    position: relative;
+}
+
+.custom-checkbox .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
+
+.custom-checkbox input:checked+.checkmark {
+    background-color: var(--accent);
+    border-color: var(--accent);
+}
+
+.custom-checkbox input:checked+.checkmark:after {
+    display: block;
+}
+
+/* File drop */
+.file-drop-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-5);
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .2s ease, background-color .2s ease;
+    min-height: clamp(160px, 24vw, 260px);
+}
+
+.file-drop-zone:hover,
+.file-drop-zone.dragover {
+    border-color: var(--accent);
+    background: rgba(122, 162, 255, 0.05);
+}
+
+.file-drop-zone input[type="file"] {
+    display: none;
+}
+
+/* Tables */
+.results-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: var(--space-3);
+    white-space: nowrap;
+}
+
+.results-table th,
+.results-table td {
+    border-bottom: 1px solid var(--border);
+    padding: 12px 8px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.results-table th {
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.results-table img {
+    width: clamp(24px, 4.2vw, 32px);
+    height: auto;
+    vertical-align: middle;
+    margin-right: 8px;
+    filter: grayscale(80%);
+}
+
+/* Result callouts */
+.result-box {
+    background: var(--accent-glow);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: var(--space-3);
+    border-radius: var(--radius);
+    margin-top: var(--space-4);
+    font-size: var(--fs-lg);
+    text-align: center;
+}
+
+.result-box b {
+    color: #fff;
+    font-weight: 800;
+}
+
+/* Graph */
+.graph-container {
+    height: clamp(260px, 46vw, 420px);
+    margin-top: var(--space-4);
+    background: var(--bg);
+    padding: var(--space-3);
+    border-radius: 10px;
+}
+
+canvas,
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Footer (disclaimer) */
+.site-footer {
+    margin-top: var(--space-5);
+    padding: var(--space-3) 0;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: var(--fs-sm);
+    text-align: center;
+}
+
+.site-footer strong {
+    color: var(--text);
+}
+
+.site-footer .site-credit {
+    margin-top: 0.35rem;
+}
+
+/* --- Responsive refinements --- */
+@media (max-width: 992px) {
+    .nav {
+        gap: var(--space-2);
+    }
+}
+
+@media (max-width: 768px) {
+    .app {
+        padding: var(--space-4) var(--space-3);
+    }
+
+    .card {
+        padding: var(--space-3);
+    }
+
+    .tabs {
+        gap: 6px;
+    }
+
+    .results-table {
+        font-size: var(--fs-sm);
+    }
+
+    .site-footer {
+        padding-left: var(--space-4);
+        padding-right: var(--space-4);
+        padding-bottom: var(--space-5);
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .brand {
+        font-size: var(--fs-base);
+    }
+
+    .tabs {
+        gap: 6px;
+    }
+
+    .tab {
+        padding: 8px 10px;
+    }
+}
+
+/* Motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* --------- Mobile Drawer (slide from right) --------- */
+.mobile-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100dvh;
+    width: clamp(260px, 70vw, 320px);
+    background: var(--card);
+    border-left: 1px solid var(--border);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    z-index: 10001;
+    padding: 18px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    box-shadow: -8px 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.nav.open .mobile-drawer {
+    transform: translateX(0);
+}
+
+/* Move tabs down below the X */
+.mobile-drawer .tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 48px;
+}
+
+.mobile-drawer .tab {
+    width: 100%;
+    text-align: left;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-weight: 600;
+    color: var(--text);
+    transition: all 0.2s ease;
+}
+
+.mobile-drawer .tab:hover {
+    border-color: var(--accent);
+    background: rgba(122, 162, 255, 0.08);
+}
+
+/* Overlay for drawer */
+.nav-overlay {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 10000;
+}
+
+.nav.open+.nav-overlay {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Minimal hamburger (top-right corner) */
+.hamburger {
+    display: none;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 10002;
+    /* above overlay */
+    position: absolute;
+    top: 16px;
+    right: 16px;
+}
+
+.hamburger span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--text);
+    margin: 4px 0;
+    transition: transform .2s ease, opacity .2s ease;
+}
+
+/* animate to "X" */
+.nav.open .hamburger span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+}
+
+.nav.open .hamburger span:nth-child(2) {
+    opacity: 0;
+}
+
+.nav.open .hamburger span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+}
+
+@media (max-width: 1024px) {
+    .hamburger {
+        display: block;
+    }
+
+    /* Hide thruster icons on small screens */
+    .results-table td img,
+    .results-table th img {
+        display: none !important;
+    }
+}
+
+/* ===== Desktop-only decorative background in the left gutter ===== */
+/* One single rule set; no duplicates */
+@media (min-width: 1025px) {
+
+    /* Keep this in sync with the .app max width */
+    :root {
+        --container-max: 1200px;
+    }
+
+    /* kill any older background pseudo-elements on body */
+    body::before {
+        content: none;
+    }
+
+    /* place the image in the left gutter using the app's centering math */
+    .app::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: calc((100vw - min(var(--container-max), 100vw)) / 2);
+        height: 100vh;
+
+        background-image: url('img/background.png');
+        background-repeat: no-repeat;
+        background-position: 12px center;
+        /* keep that margin */
+        background-size: contain;
+        /* 👈 scales image fully inside gutter */
+
+        opacity: 0.15;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+
+
+    /* Hide decorative bg on tablet/phone */
+    @media (max-width: 1024px) {
+        .app::before {
+            content: none !important;
+        }
+    }
+}
+
+/* === Lock navbar to the same bounds as the main content === */
+@media (min-width: 1025px) {
+    :root {
+        --container-max: 1200px;
+    }
+
+    /* must match .app */
+
+    .nav {
+        /* constrain to content width and center it */
+        box-sizing: border-box;
+        width: 100%;
+        max-width: var(--container-max);
+        margin: 0 auto;
+        padding: 12px var(--space-4);
+        /* same horizontal padding as .app */
+        border-bottom: 1px solid var(--border);
+
+        /* one row: brand left, tabs to the right */
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 28px;
+    }
+
+    .brand {
+        position: static !important;
+        transform: none !important;
+        margin: 0;
+        flex: 0 0 auto;
+    }
+
+    /* Drawer behaves like a normal inline container on desktop */
+    .mobile-drawer {
+        position: static !important;
+        transform: none !important;
+        width: auto;
+        height: auto;
+        background: transparent;
+        border: 0;
+        box-shadow: none;
+        padding: 0;
+        flex: 1 1 auto;
+        /* take remaining row width */
+    }
+
+    .mobile-drawer .tabs {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center;
+        justify-content: flex-start;
+        /* tabs start right after brand */
+        gap: 22px;
+        margin: 0;
+        overflow: visible;
+    }
+
+    /* undo mobile full-width pills */
+    .mobile-drawer .tab {
+        width: auto !important;
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 14px;
+        border-radius: 12px;
+        border: 1px solid transparent;
+        background: transparent;
+        white-space: nowrap;
+    }
+
+    /* hide mobile-only UI on desktop */
+    .hamburger {
+        display: none !important;
+    }
+
+    .nav-overlay {
+        display: none !important;
+    }
+}
+
+#blueprintName {
+    font-size: var(--fs-xl);
+    color: #ff9999;
+    font-weight: 800;
+}
+
+#blueprintTable {
+    table-layout: fixed;
+    white-space: normal;
+}
+
+#blueprintTable th:last-child,
+#blueprintTable td:last-child {
+    width: 80px;
+    text-align: right;
+}
+
+/* Make the original chart image clickable */
+.jump-chart-img {
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.jump-chart-img:hover {
+    opacity: 0.85;
+}
+
+/* Modal Overlay (the dark background) */
+.modal-overlay {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    z-index: 10010;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    justify-content: center;
+    align-items: center;
+}
+
+/* Class to show the modal (toggled by JS) */
+.modal-overlay.show {
+    display: flex;
+}
+
+/* The enlarged image */
+.modal-content {
+    display: block;
+    max-width: 90%;
+    max-height: 90vh;
+    animation: zoomIn 0.3s ease;
+}
+
+/* Simple zoom-in animation */
+@keyframes zoomIn {
+    from {
+        transform: scale(0.5);
+    }
+
+    to {
+        transform: scale(1);
+    }
+}
+
+/* The close button (X) */
+.modal-close {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal-close:hover {
+    color: #bbb;
+}
