@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.appendChild(overlay);
     }
 
-    function closeDrawer() {<td><img src="${imageBaseUrl}${imageName}" alt="${thruster.name}"></td>thruster.name
+    function closeDrawer() {
         hamburger?.setAttribute('aria-expanded', 'false');
         nav?.classList.remove('open');
         document.body.classList.remove('no-scroll');
@@ -503,5 +503,6 @@ document.addEventListener('DOMContentLoaded', () => {
     calculateParachutes();
     calculateJumpDrive();
 });
+
 
 
